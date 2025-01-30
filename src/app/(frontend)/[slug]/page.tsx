@@ -10,7 +10,7 @@ import { homeStatic } from '@/cms/endpoints/seed/home-static'
 import type { Page as PageType } from '@/cms/payload-types'
 
 import { RenderBlocks } from '@/cms/blocks/RenderBlocks'
-import { RenderHero } from '@/heros/RenderHero'
+import { RenderHero } from '@/cms/heros/RenderHero'
 import { generateMeta } from '@/utilities/generateMeta'
 import PageClient from './page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'

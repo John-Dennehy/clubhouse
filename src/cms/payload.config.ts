@@ -1,21 +1,19 @@
-// storage-adapter-import-placeholder
-import { postgresAdapter } from '@payloadcms/db-postgres'
-
 import sharp from 'sharp' // sharp-import
 import path from 'path'
 import { buildConfig, PayloadRequest } from 'payload'
 import { fileURLToPath } from 'url'
 
-import { Categories } from './collections/Categories'
-import { Media } from './collections/Media'
-import { Pages } from './collections/Pages'
-import { Posts } from './collections/Posts'
-import { Users } from './collections/Users'
-import { Footer } from './Footer/config'
-import { Header } from './Header/config'
-import { plugins } from './plugins'
-import { defaultLexical } from './fields/defaultLexical'
+import { Categories } from '@/cms/collections/Categories'
+import { Media } from '@/cms/collections/Media'
+import { Pages } from '@/cms/collections/Pages'
+import { Posts } from '@/cms/collections/Posts'
+import { Users } from '@/cms/collections/Users'
+import { Footer } from '@/cms/globals/Footer/config'
+import { Header } from '@/cms/globals/Header/config'
+import { plugins } from '@/cms/plugins'
+import { defaultLexical } from '@/cms/fields/defaultLexical'
 import { getServerSideURL } from '@/utilities/getURL'
+import { databaseAdapter } from '@/cms/config/adaptors/db'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -59,11 +57,7 @@ export default buildConfig({
   },
   // This config helps us configure global or default features that the other editors can inherit
   editor: defaultLexical,
-  db: postgresAdapter({
-    pool: {
-      connectionString: process.env.DATABASE_URI || '',
-    },
-  }),
+  db: databaseAdapter,
   collections: [Pages, Posts, Media, Categories, Users],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer],
