@@ -1,19 +1,20 @@
-import sharp from 'sharp' // sharp-import
-import path from 'path'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
+
 import { buildConfig, PayloadRequest } from 'payload'
-import { fileURLToPath } from 'url'
+import sharp from 'sharp' // sharp-import
 
 import { Categories } from '@/cms/collections/Categories'
 import { Media } from '@/cms/collections/Media'
 import { Pages } from '@/cms/collections/Pages'
 import { Posts } from '@/cms/collections/Posts'
 import { Users } from '@/cms/collections/Users'
+import { databaseAdapter } from '@/cms/config/adaptors/db'
+import { defaultLexical } from '@/cms/fields/defaultLexical'
 import { Footer } from '@/cms/globals/Footer/config'
 import { Header } from '@/cms/globals/Header/config'
 import { plugins } from '@/cms/plugins'
-import { defaultLexical } from '@/cms/fields/defaultLexical'
 import { getServerSideURL } from '@/utilities/getURL'
-import { databaseAdapter } from '@/cms/config/adaptors/db'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -29,6 +30,7 @@ export default buildConfig({
       beforeDashboard: ['@/components/BeforeDashboard'],
     },
     importMap: {
+      autoGenerate: true,
       baseDir: path.resolve(dirname),
     },
     user: Users.slug,
@@ -61,10 +63,7 @@ export default buildConfig({
   collections: [Pages, Posts, Media, Categories, Users],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer],
-  plugins: [
-    ...plugins,
-    // storage-adapter-placeholder
-  ],
+  plugins: [...plugins],
   secret: process.env.PAYLOAD_SECRET,
   sharp,
   typescript: {
