@@ -1,4 +1,4 @@
-import type { Config } from 'src/payload-types'
+import type { Config } from '@/cms/payload-types'
 
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
