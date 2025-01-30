@@ -1,6 +1,5 @@
 import { payloadCloudPlugin } from '@payloadcms/payload-cloud'
 import { formBuilderPlugin } from '@payloadcms/plugin-form-builder'
-import { nestedDocsPlugin } from '@payloadcms/plugin-nested-docs'
 
 import { seoPlugin } from '@payloadcms/plugin-seo'
 import { searchPlugin } from '@payloadcms/plugin-search'
@@ -15,6 +14,7 @@ import { beforeSyncWithSearch } from '@/cms/search/beforeSync'
 import { Page, Post } from '@/cms/payload-types'
 import { getServerSideURL } from '@/utilities/getURL'
 import { redirects } from './redirects'
+import { nestedDocs } from './nestedDocs'
 
 const generateTitle: GenerateTitle<Post | Page> = ({ doc }) => {
   return doc?.title ? `${doc.title} | Payload Website Template` : 'Payload Website Template'
@@ -28,10 +28,7 @@ const generateURL: GenerateURL<Post | Page> = ({ doc }) => {
 
 export const plugins: Plugin[] = [
   redirects,
-  nestedDocsPlugin({
-    collections: ['categories'],
-    generateURL: (docs) => docs.reduce((url, doc) => `${url}/${doc.slug}`, ''),
-  }),
+  nestedDocs,
   seoPlugin({
     generateTitle,
     generateURL,
